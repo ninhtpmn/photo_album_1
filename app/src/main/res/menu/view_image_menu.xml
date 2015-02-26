@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/setbg"
+        android:title="Set as Wallpaper"/>
+        <!--myapp:showAsAction="ifRoom|collapseActionView"/>-->
+
+    <item
+        android:id="@+id/Share"
+        android:title="Share"
+        android:icon="@drawable/ic_action_share"
+        myapp:showAsAction="always"/>
+
+    <item
+        android:id="@+id/delete"
+        android:title="Delete"
+        android:icon="@drawable/ic_action_discard"
+        myapp:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/ViewInfo"
+        android:orderInCategory="100"
+        android:title="Details"
+        android:icon="@drawable/ic_launcher"/>
+
+</menu>
