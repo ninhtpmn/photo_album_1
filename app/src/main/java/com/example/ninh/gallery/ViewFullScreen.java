@@ -42,8 +42,6 @@ public class ViewFullScreen extends ActionBarActivity{
     Bundle extras;
     private FullScreenImageAdapter adapter;
     ViewPager viewPager;
-    static int width;
-    static int height;
 
 
     @Override
@@ -61,36 +59,13 @@ public class ViewFullScreen extends ActionBarActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        Display display = getWindowManager().getDefaultDisplay();
-        width = display.getWidth();
-        height = display.getHeight();
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_fullscreen);
 
-        actionbar = getSupportActionBar();
-        actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.hide();
-
         tv = (TextView)findViewById(R.id.info);
-        tv.setVisibility(View.INVISIBLE);
-
-
         viewPager = (ViewPager) findViewById(R.id.pager);
 
-        extras = getIntent().getExtras();
-        int pos = extras.getInt("POSITION");  // get extras of
-        adapter = new FullScreenImageAdapter(this, ViewListImage.gridArray);
-
-        viewPager.setAdapter(adapter);
-        // displaying selected image first
-        viewPager.setCurrentItem(pos);
+        init();
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -100,7 +75,7 @@ public class ViewFullScreen extends ActionBarActivity{
 
             @Override
             public void onPageSelected(int position) {
-
+                actionbar.setTitle(new File(ViewListImage.gridArray.get(viewPager.getCurrentItem()).getPath()).getName());
             }
 
             @Override
@@ -108,6 +83,27 @@ public class ViewFullScreen extends ActionBarActivity{
                 tv.setVisibility(View.INVISIBLE);
             }
         });
+
+    }
+
+    private void init() {
+
+        actionbar = getSupportActionBar();
+        actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.hide();
+
+        tv.setVisibility(View.INVISIBLE);
+
+        extras = getIntent().getExtras();
+        int pos = extras.getInt("POSITION");  // get extras of Intent
+        adapter = new FullScreenImageAdapter(this, ViewListImage.gridArray);
+
+        viewPager.setAdapter(adapter);
+        // displaying selected image first
+        viewPager.setCurrentItem(pos);
+
+        actionbar.setTitle(new File(ViewListImage.gridArray.get(pos).getPath()).getName());
 
     }
 

@@ -38,12 +38,22 @@ public class ViewListImage extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_list_image);
 
+        init();
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                Intent i = new Intent(getApplicationContext(),ViewFullScreen.class);
+                i.putExtra("POSITION",position);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void init() {
         Bundle extras = getIntent().getExtras();
         pathget = extras.getString("PATH");
 
@@ -54,24 +64,12 @@ public class ViewListImage extends ActionBarActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Log.i("PATH", pathget);
-
-
         gridview = (GridView) findViewById(R.id.gridview_viewimage);
         customGridAdapter = new GridviewAdapter(this, R.layout.row_grid, gridArray);
         gridview.setAdapter(customGridAdapter);
 
         GetItem get = new GetItem();
         get.execute();
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                Intent i = new Intent(getApplicationContext(),ViewFullScreen.class);
-//                i.putExtra("PATHIMAGE",gridArray.get(position).getPath());
-                i.putExtra("POSITION",position);
-                startActivity(i);
-            }
-        });
     }
 
 

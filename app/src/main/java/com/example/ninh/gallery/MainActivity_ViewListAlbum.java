@@ -39,33 +39,18 @@ public class MainActivity_ViewListAlbum extends ActionBarActivity {
 
             @Override
     public void onCreate(Bundle savedInstanceState) {
-                int width = getWindowManager().getDefaultDisplay().getWidth();
-                int height = getWindowManager().getDefaultDisplay().getHeight();
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-                ActionBar actionBar = getSupportActionBar();
-                actionBar.setTitle("Albums");
-                actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
-                actionBar.setIcon(R.drawable.ic_launcher);
-
 
                 Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 String[] projection = { MediaStore.Images.Media._ID, MediaStore.Images.Media.BUCKET_ID,
                         MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
-
                 cursor = getContentResolver().query(uri, projection, null, null, null);
                 columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
                 Log.i("COLUMN INDEX", ""+cursor.getCount());
 
-
-                gridview = (GridView) findViewById(R.id.gridview);
-                customGridAdapter = new GridviewAdapter(this, R.layout.row_grid, gridArray);
-
-                GetItem get = new GetItem();
-                get.execute();
+             init();
 
                   gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -77,9 +62,22 @@ public class MainActivity_ViewListAlbum extends ActionBarActivity {
 
             }
 
+    private void init() {
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Albums");
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setIcon(R.drawable.ic_launcher);
+
+        gridview = (GridView) findViewById(R.id.gridview);
+        customGridAdapter = new GridviewAdapter(this, R.layout.row_grid, gridArray);
+
+        GetItem get = new GetItem();
+        get.execute();
+    }
 
 
-     private boolean Check(String a, ArrayList<String> list) {
+    private boolean Check(String a, ArrayList<String> list) {
          if(list.isEmpty()) return false;
          else
          {

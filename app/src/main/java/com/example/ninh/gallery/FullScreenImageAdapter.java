@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,8 @@ public class FullScreenImageAdapter extends PagerAdapter {
         path = _imagePaths.get(position).getPath();
 
         DecodeBitmap de = new DecodeBitmap();
-        bitmap = de.decodeSampledBitmapFromPath(path, ViewFullScreen.width, ViewFullScreen.height);
+        Log.v("WH", LayoutUltis.GetWidth() + ";" + LayoutUltis.GetHeight());
+        bitmap = de.decodeSampledBitmapFromPath(path, LayoutUltis.GetWidth(), LayoutUltis.GetHeight());
         imgDisplay.setImageBitmap(bitmap);
 
         ((ViewPager) container).addView(viewLayout);
@@ -74,7 +76,6 @@ public class FullScreenImageAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
                     if (!ViewFullScreen.actionbar.isShowing()) {
-                        ViewFullScreen.actionbar.setTitle(new File(path).getName());
                         ViewFullScreen.actionbar.show();
                     } else {
                         ViewFullScreen.actionbar.hide();
